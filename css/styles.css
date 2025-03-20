@@ -1059,3 +1059,69 @@
   color: #aaa;
 }
 /* login end */
+
+/* signup start */
+.signup-container-wrapper {
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.signup-container {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+}
+
+.signup-brand-logo {
+  font-size: 30px;
+  font-weight: bold;
+  color: #590696;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.signup-password-container {
+  position: relative;
+}
+
+.signup-password-container input {
+  padding-right: 40px;
+}
+
+.signup-password-container .signup-toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #aaa;
+}
+
+.signup-btn-primary {
+  background-color: #590696;
+  border-color: #590696;
+  color: white;
+
+}
+
+.signup-btn-primary:hover {
+  background-color: #8c52ff;
+  border-color: #8c52ff;
+  color: white;
+}
+
+.signup-link {
+  color: #590696;
+  text-decoration: none;
+}
+
+.signup-link:hover {
+  color: #8c52ff;
+}
+/* signup end */

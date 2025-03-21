@@ -1039,7 +1039,7 @@
 .login .brand-logo {
   font-size: 30px;
   font-weight: bold;
-  color: var(--primary-color);
+  color: #8c52ff; /* Primary color */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1057,6 +1057,20 @@
   transform: translateY(-50%);
   cursor: pointer;
   color: #aaa;
+}
+.login .btn-primary {
+  background-color: #590696; 
+  border-color: #590696;
+}
+.login .btn-primary:hover {
+  background-color: #8c52ff; 
+  border-color: #8c52ff;
+}
+.login a {
+  color: #8c52ff;
+}
+.login a:hover {
+  color: #590696;
 }
 /* login end */
 

@@ -1139,3 +1139,36 @@
   color: #8c52ff;
 }
 /* signup end */
+
+/* result page start */
+.result {
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+.result-container {
+  max-width: 700px;
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+h2 {
+  color: #590696;
+  font-weight: bold;
+}
+.list-group-item {
+  font-weight: 500;
+}
+.btn-primary {
+  background-color: #590696;
+  border-color: #590696;
+}
+.btn-primary:hover {
+  background-color: #8c52ff;
+  border-color: #8c52ff;
+}
+/* result page end */

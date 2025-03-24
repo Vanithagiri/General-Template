@@ -5,49 +5,195 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feedback Analysis Report</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body.result {
+            color: #4a235a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .result-container {
+            max-width: 800px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            color: #4a235a;
+        }
+
+        .form-select, .list-group-item {
+            color: #4a235a;
+        }
+
+        .btn-primary {
+            background-color: #6a0dad;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #4a235a;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .badge-primary {
+            background-color: #6a0dad !important;
+        }
+    </style>
 </head>
 <body class="result">
 
     <div class="result-container">
         <h2 class="text-center mb-4">Feedback Analysis Report</h2>
 
+        <!-- Department Selection -->
         <div class="mb-3">
-            <p><strong>Overall Sentiment:</strong> <span class="badge bg-primary" id="sentiment">Positive</span></p>
-            <p><strong>Overall Insight:</strong> <span id="insight">Users are satisfied with the product.</span></p>
+            <label for="department" class="form-label"><strong>Select Department:</strong></label>
+            <select id="department" class="form-select">
+                <option value="" disabled selected>Choose a department</option>
+                <option value="customer-support">Customer Support</option>
+                <option value="pricing">Pricing</option>
+                <option value="product-quality">Product Quality</option>
+            </select>
         </div>
 
-        <h3>Key Factors:</h3>
+        <!-- Sentiment Score -->
+        <div id="result-section" class="hidden">
+            <p><strong>Overall Sentiment:</strong> <span class="badge badge-primary" id="sentiment"></span></p>
+            <p><strong>Overall Insight:</strong> <span id="insight"></span></p>
 
-        <div class="mb-3">
-            <p class="text-success"><strong>Positive:</strong></p>
-            <ul class="list-group" id="positive-list">
-                <li class="list-group-item list-group-item-success">Great customer service</li>
-                <li class="list-group-item list-group-item-success">Easy to use interface</li>
-            </ul>
+            <!-- Key Insights -->
+            <div id="key-factors">
+                <h3>Key Factors:</h3>
+                <div class="mb-3">
+                    <p class="text-success"><strong>Positive:</strong></p>
+                    <ul class="list-group" id="positive-list"></ul>
+                </div>
+
+                <div class="mb-3">
+                    <p class="text-danger"><strong>Negative:</strong></p>
+                    <ul class="list-group" id="negative-list"></ul>
+                </div>
+
+                <div class="mb-3">
+                    <p class="text-secondary"><strong>Neutral:</strong></p>
+                    <ul class="list-group" id="neutral-list"></ul>
+                </div>
+            </div>
+
+            <!-- Action Plan -->
+            <div id="action-plan">
+                <h3>Action Plan:</h3>
+                <ul class="list-group">
+                    <li class="list-group-item"><strong>Short-Term:</strong> <span id="short-term"></span></li>
+                    <li class="list-group-item"><strong>Long-Term:</strong> <span id="long-term"></span></li>
+                    <li class="list-group-item"><strong>Future:</strong> <span id="future"></span></li>
+                </ul>
+            </div>
+
+            <!-- Task Alignment Board -->
+            <div id="task-board-section">
+                <h3 class="mt-4">Task Alignment Board</h3>
+                <p class="text-muted">Key tasks with execution indicators.</p>
+                <ul class="list-group" id="task-board"></ul>
+            </div>
         </div>
 
-        <div class="mb-3">
-            <p class="text-danger"><strong>Negative:</strong></p>
-            <ul class="list-group" id="negative-list">
-                <li class="list-group-item list-group-item-danger">Slow response time</li>
-                <li class="list-group-item list-group-item-danger">High subscription cost</li>
-            </ul>
-        </div>
-
-        <div class="mb-3">
-            <p class="text-secondary"><strong>Neutral:</strong></p>
-            <ul class="list-group" id="neutral-list">
-                <li class="list-group-item list-group-item-secondary">Average support experience</li>
-            </ul>
-        </div>
-
-        <div class="text-center">
+        <!-- Button to Upload Another File -->
+        <div class="text-center mt-4">
             <button class="btn btn-primary" onclick="uploadAnotherFile()">Upload Another File</button>
         </div>
     </div>
 
     <script>
+        const data = {
+            "customer-support": {
+                sentiment: "78% Positive / 15% Neutral / 7% Negative",
+                insight: "Fast response, but needs better escalation handling.",
+                positive: ["Fast response time", "Empathetic support team"],
+                negative: ["Ineffective issue resolution"],
+                neutral: ["Basic responses without deep insights"],
+                actionPlan: {
+                    shortTerm: "Deploy chatbot for initial queries (Team Lead)",
+                    longTerm: "Optimize staffing during peak hours (HR)",
+                    future: "Expand multilingual support (R&D Team)"
+                },
+                tasks: ["Train AI chatbot", "Analyze peak hours", "Implement multilingual support"]
+            },
+            "pricing": {
+                sentiment: "60% Positive / 20% Neutral / 20% Negative",
+                insight: "Competitive pricing but lacks flexible plans.",
+                positive: ["Affordable for small businesses", "Good value for money"],
+                negative: ["Limited custom plans", "Expensive enterprise-tier"],
+                neutral: ["Some discounts available but not widely promoted"],
+                actionPlan: {
+                    shortTerm: "Introduce promotional discounts",
+                    longTerm: "Develop more flexible pricing models",
+                    future: "Expand pricing tiers for different customer needs"
+                },
+                tasks: ["Create marketing campaign", "Conduct customer pricing survey", "Revise enterprise pricing"]
+            },
+            "product-quality": {
+                sentiment: "85% Positive / 10% Neutral / 5% Negative",
+                insight: "High satisfaction with features, but some bugs reported.",
+                positive: ["User-friendly design", "Feature-rich"],
+                negative: ["Occasional software bugs"],
+                neutral: ["Some features need improvement"],
+                actionPlan: {
+                    shortTerm: "Fix reported bugs (Dev Team)",
+                    longTerm: "Enhance existing features based on feedback",
+                    future: "Develop new innovations"
+                },
+                tasks: ["Bug fixes", "Feature improvement plan", "Innovation research"]
+            }
+        };
+
+        document.getElementById("department").addEventListener("change", function () {
+            const selectedDept = this.value;
+            const resultSection = document.getElementById("result-section");
+            
+            if (data[selectedDept]) {
+                document.getElementById("sentiment").textContent = data[selectedDept].sentiment;
+                document.getElementById("insight").textContent = data[selectedDept].insight;
+
+                updateList("positive-list", data[selectedDept].positive, "list-group-item-success");
+                updateList("negative-list", data[selectedDept].negative, "list-group-item-danger");
+                updateList("neutral-list", data[selectedDept].neutral, "list-group-item-secondary");
+
+                document.getElementById("short-term").textContent = data[selectedDept].actionPlan.shortTerm;
+                document.getElementById("long-term").textContent = data[selectedDept].actionPlan.longTerm;
+                document.getElementById("future").textContent = data[selectedDept].actionPlan.future;
+
+                updateList("task-board", data[selectedDept].tasks, "list-group-item");
+
+                resultSection.classList.remove("hidden");
+            } else {
+                resultSection.classList.add("hidden");
+            }
+        });
+
+        function updateList(elementId, items, className) {
+            const list = document.getElementById(elementId);
+            list.innerHTML = "";
+            if (items.length > 0) {
+                document.getElementById(elementId).parentElement.classList.remove("hidden");
+                items.forEach(item => {
+                    const li = document.createElement("li");
+                    li.className = `list-group-item ${className}`;
+                    li.textContent = item;
+                    list.appendChild(li);
+                });
+            } else {
+                document.getElementById(elementId).parentElement.classList.add("hidden");
+            }
+        }
+
         function uploadAnotherFile() {
             window.location.href = "/"; // Redirect to the upload page
         }

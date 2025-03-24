@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="usermanagement">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h4>User Management</h4>
+        <a href="#">Dashboard</a>
+        <a href="#">User Management</a>
+        <a href="#">Security & Access</a>
+        <a href="#">Settings</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h2>User Management</h2>
+        <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addUserModal">+ Add User</button>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Access</th>
+                    <th>Last Active</th>
+                    <th>Date Added</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                <!-- 10+ Sample Users -->
+                <tr>
+                    <td>Florence Shaw</td>
+                    <td>florence@example.com</td>
+                    <td><span class="badge badge-admin">Admin</span></td>
+                    <td>Mar 4, 2024</td>
+                    <td>July 4, 2022</td>
+                    <td><button class="btn btn-sm btn-outline-secondary">Edit</button></td>
+                </tr>
+                <tr>
+                    <td>Ammar Foley</td>
+                    <td>ammar@example.com</td>
+                    <td><span class="badge badge-export">Data Export</span></td>
+                    <td>Mar 2, 2024</td>
+                    <td>July 6, 2022</td>
+                    <td><button class="btn btn-sm btn-outline-secondary">Edit</button></td>
+                </tr>
+                <tr>
+                    <td>Sophia Keller</td>
+                    <td>sophia@example.com</td>
+                    <td><span class="badge badge-import">Data Import</span></td>
+                    <td>Mar 1, 2024</td>
+                    <td>July 7, 2022</td>
+                    <td><button class="btn btn-sm btn-outline-secondary">Edit</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add User Modal -->
+    <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addUserForm">
+                        <div class="mb-3">
+                            <label for="userName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="userName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="userEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userAccess" class="form-label">Access Type</label>
+                            <select class="form-select" id="userAccess" required>
+                                <option value="Admin">Admin</option>
+                                <option value="Data Export">Data Export</option>
+                                <option value="Data Import">Data Import</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add User</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap & JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.getElementById('addUserForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        let name = document.getElementById('userName').value;
+        let email = document.getElementById('userEmail').value;
+        let access = document.getElementById('userAccess').value;
+
+        let badgeClass = "";
+        if (access === "Admin") {
+            badgeClass = "badge-admin";
+        } else if (access === "Data Export") {
+            badgeClass = "badge-export";
+        } else {
+            badgeClass = "badge-import";
+        }
+
+        let newRow = `
+            <tr>
+                <td>${name}</td>
+                <td>${email}</td>
+                <td><span class="badge ${badgeClass}">${access}</span></td>
+                <td>Just now</td>
+                <td>Today</td>
+                <td><button class="btn btn-sm btn-outline-secondary">Edit</button></td>
+            </tr>
+        `;
+
+        document.getElementById('userTableBody').innerHTML += newRow;
+        document.getElementById('addUserForm').reset();
+        let modal = bootstrap.Modal.getInstance(document.getElementById('addUserModal'));
+        modal.hide();
+    });
+</script>
+
+</body>
+</html>
